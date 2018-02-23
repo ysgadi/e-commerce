@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "http://api_pgweb:3000",
+    "secure": false
+  }
+}

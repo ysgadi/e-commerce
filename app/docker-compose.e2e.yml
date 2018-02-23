@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  api_pgweb:
+    user: $JUID:$JGID
+    command: >
+      wait-for db_pgweb:3306 --
+      npm start
+
+  web_pgweb:
+    user: $JUID:$JGID
+    command: >
+      npm run e2e:docker

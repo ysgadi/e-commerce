@@ -1,0 +1,157 @@
+paths:
+  /register:
+    post:
+      tags:
+        - accounts
+      summary: create a new account for a user
+      operationId: accountCreate
+      parameters:
+        - in: body
+          name: body
+          description: User object to create
+          required: true
+          schema:
+            email:
+              $ref: '#/parameters/Email'
+            password:
+              $ref: '#/parameters/Password'
+            pseudo:
+              type: string
+              maxLength: 255
+              required: true
+            firstName:
+              type: string
+              maxLength: 255
+            lastName:
+              type: string
+              maxLength: 255
+            address:
+              type: string
+              maxLength: 255
+              required: true
+            IBAN:
+              type: string
+              maxLength: 255
+              required: true
+      responses:
+        '201':
+          description: OK
+          schema:
+            $ref: '#/definitions/Account'
+        '401':
+          description: Email already exists
+          $ref: '#/responses/Message'
+        '422':
+          $ref: '#/responses/InvalidInput'
+        '500':
+          description: Registration error
+          $ref: '#/responses/Message'
+  /login:
+    post:
+      tags:
+        - accounts
+      summary: connect to an account
+      operationId: accountConnect
+      parameters:
+        - in: body
+          name: body
+          description: User login identifiers
+          type: object
+          required: true
+          properties:
+            email:
+              $ref: '#/parameters/Email'
+            password:
+              $ref: '#/parameters/Password'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/parameters/Token'
+        '401':
+          description: Invalid Login
+          $ref: '#/responses/Message'
+        '422':
+          $ref: '#/responses/InvalidInput'
+        '500':
+          description: Login error
+          $ref: '#/responses/Message'
+  /accounts:
+    put:
+      tags:
+        - accounts
+      summary: update informations of an account
+      operationId: accountUpdate
+      parameters:
+        - in: user.data
+          name: data
+          description: Account identifier extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+        - in: body
+          name: body
+          description: User object to create
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/parameters/Token'
+        '401':
+          description: Email already exists
+          $ref: '#/responses/Message'
+        '422':
+          $ref: '#/responses/InvalidInput'
+        '500':
+          description: Registration error
+          $ref: '#/responses/Message'
+    delete:
+      tags:
+        - accounts
+      summary: Delete an account
+      operationId: accountDelete
+      parameters:
+        - in: user.data
+          name: data
+          description: Account extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+      responses:
+        '200':
+          description: 'OK'
+          $ref: '#/responses/Message'
+        '401':
+          $ref: '#/responses/InvalidRights'
+        '500':
+          description: Deleting account error
+          $ref: '#/responses/Message'
+definitions:
+  Account:
+    type: object
+    properties:
+      id:
+        $ref: '#/parameters/Id'
+      email:
+        $ref: '#/parameters/Email'
+      pseudo:
+        type: string
+        maxLength: 255
+        required: true
+      firstName:
+        type: string
+        maxLength: 255
+      lastName:
+        type: string
+        maxLength: 255
+      address:
+        type: string
+        maxLength: 255
+        required: true
+      IBAN:
+        type: string
+        maxLength: 255
+        required: true

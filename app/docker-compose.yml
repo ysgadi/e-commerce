@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  db_pgweb:
+    image: mariadb:10
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    restart: always
+
+  api_pgweb:
+    build:
+      context: ./
+      dockerfile: docker-configs/Dockerfile-node
+    depends_on:
+      - db_pgweb
+    volumes:
+      - ./:/app
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    environment:
+      - DEBUG=app:*
+    command: >
+      wait-for db_pgweb:3306 --
+      bash -c 'npm install && \
+               npm run start:dev'
+    restart: always
+
+  web_pgweb:
+    build:
+      context: ./
+      dockerfile: docker-configs/Dockerfile-node
+    depends_on:
+      - api_pgweb
+    volumes:
+      - ./frontend/:/app
+    ports:
+      - '4200:4200'
+    environment:
+      - HEADLESS=1
+    command: >
+      bash -c 'npm install && \
+               npm run start:docker -- --host=0.0.0.0 --disable-host-check'
+    restart: always

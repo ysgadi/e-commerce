@@ -1,0 +1,25 @@
+<div class="card-header">
+  <h5>Login</h5>
+</div>
+<div id="scrolltableIns">
+  <div class="card-body container">
+    <form id="login-form"
+          (ngSubmit)="onLogin(email.value, password.value)"
+          ngNativeValidate>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control form-control-sm" name="email" maxlength="255" #email required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control form-control-sm" name="password" minlength="5" maxlength="32" #password required>
+      </div>
+      <div class="text-right">
+        <input class="btn btn-primary" type="submit" value="Log In">
+      </div>
+    </form>
+    <div id="errMessageDiv" *ngIf="errMessage !== ''" class="alert alert-danger" role="alert">
+      <strong>Error: </strong> {{ errMessage }}
+    </div>
+  </div>
+</div>

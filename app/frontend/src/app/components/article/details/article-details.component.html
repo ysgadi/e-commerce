@@ -1,0 +1,36 @@
+<div class="card" align="center" *ngIf="article !== null">
+  <div class="card-block">
+    <h4 class="card-title" id="name"> {{ article.name }} </h4>
+    <p class="card-text" id="description"> {{ article.description }} </p>
+    <p class="card-text" id="price">Price : {{ article.price }}€ </p>
+    <p class="card-text" id="category">Category : {{ article.category }} </p>
+    <p class="card-text" id="quantity">Quantity : {{ article.quantity }} </p>
+    <a class="btn btn-primary" id="owner-btn" routerLink='/user/{{ article.ownerId }}'>
+      <i class="fa fa-eye"></i>
+      View owner page
+    </a>
+  </div>
+  <form class="user-actions" id="buy-actions" *ngIf="this.authService.getAccount()"
+    (ngSubmit)="onAddToCart()" ngNativeValidate>
+    <label>Choose Quantity</label>
+    <input type="number" class="form-control-sm" name="quantity" min="1" max="{{article.quantity}}"
+      [(ngModel)]="quantity" required>
+    <button class="btn btn-success fa fa-cart-plus" id="add-to-cart" type="submit">
+      Add to cart
+    </button>
+  </form>
+  <div class="user-actions" id="owner-actions" *ngIf="isOwner">
+    <a class="btn btn-warning" id="update-btn" routerLink='/article/{{ article.id }}/update'>
+      <i class="fa fa-pencil"></i>
+      Update
+    </a>
+    <a class="btn btn-danger" id="delete-btn" href="javascript:void(0);" (click)="onDelete()">
+      <i class="fa fa-trash"></i>
+      Delete
+    </a>
+  </div>
+  <div id="messageDiv" *ngIf="message !== ''" [ngClass]="alert-danger" class="alert"
+    role="alert">
+    {{ message }}
+  </div>
+</div>

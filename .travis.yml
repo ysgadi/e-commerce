@@ -1,0 +1,26 @@
+sudo: required
+dist: trusty
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+language: node_js
+node_js:
+  - "stable"
+before_install:
+  - sudo service mysql stop
+  - cd app/
+  - export JUID=`id -u $USER` JGID=`id -g $USER`
+  - docker-compose up -d db_pgweb
+  - export `cat .env` DB_HOST=localhost
+  - npm install
+  - npm run start &
+before_script:
+  - export DISPLAY=:99.0
+  - sudo sh -e /etc/init.d/xvfb start
+  - sleep 3
+  - cd frontend/
+  - npm install
+script: npm run e2e

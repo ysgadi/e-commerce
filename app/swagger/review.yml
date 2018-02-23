@@ -1,0 +1,73 @@
+paths:
+  /reviews/{id}:
+    post:
+      tags:
+        - reviews
+      summary: set a review on a user
+      operationId: reviewAddUser
+      parameters:
+        - in: user.data
+          name: data
+          description: Account extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+        - in: path
+          name: id
+          description: reviewed user's id
+          required: true
+          schema:
+            $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: OK
+          $ref: '#/responses/Message'
+        '401':
+          $ref: '#/responses/InvalidRights'
+        '404':
+          description: User not found
+          $ref: '#/responses/Message'
+        '422':
+          $ref: '#/responses/InvalidInput'
+        '500':
+          description: Adding review failed
+          $ref: '#/responses/Message'
+  /reviews/{id}/received:
+    get:
+      tags:
+        - reviews
+      summary: Give the list of reviews about user
+      operationId: reviewsReceived
+      parameters:
+        - in: path
+          name: id
+          description: reviewed user's id
+          required: true
+          schema:
+            $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: '#/definitions/User'
+                - properties:
+                    Review:
+                      $ref: '#/definitions/Review'
+        '404':
+          description: User not found
+          $ref: '#/responses/Message'
+definitions:
+  Review:
+    type: object
+    properties:
+      comment:
+        type: string
+        maxLength: 500
+        required: true
+      reviewerId:
+          $ref: '#/parameters/Id'
+      reviewedId:
+          $ref: '#/parameters/Id'

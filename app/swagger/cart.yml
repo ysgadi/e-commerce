@@ -1,0 +1,131 @@
+paths:
+  /carts:
+    get:
+      tags:
+        - carts
+      summary: Give the cart's list of articles
+      operationId: cartList
+      parameters:
+        - in: user.data
+          name: data
+          description: Account extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items: 
+              type: object
+              description: Articles of User joined with Cart
+              properties:
+                Article:
+                  $ref: '#/definitions/Article'
+                Cart:
+                  $ref: '#/definitions/Cart'
+        '401':
+          $ref: '#/responses/InvalidRights'
+  /carts/valid:
+    get:
+      tags:
+        - carts
+      summary: Valid a cart to buy articles
+      operationId: cartValid
+      parameters:
+        - in: user.data
+          name: data
+          description: Account extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/responses/Message'
+        '401':
+          $ref: '#/responses/InvalidRights'
+        '404':
+          description: 'No article found in cart'
+          $ref: '#/responses/Message'
+        '500':
+          description: Cart validation failed
+          $ref: '#/responses/Message'
+  /carts/{id}:
+    post:
+      tags:
+        - carts
+      summary: add article to cart
+      operationId: cartAddArticle
+      parameters:
+        - in: user.data
+          name: data
+          description: Account extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+        - in: path
+          name: id
+          description: article's id
+          required: true
+          schema:
+            $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: OK
+          $ref: '#/responses/Message'
+        '401':
+          $ref: '#/responses/InvalidRights'
+        '404':
+          description: Article not found
+          $ref: '#/responses/Message'
+        '422':
+          $ref: '#/responses/InvalidInput'
+        '500':
+          description: Adding article to cart failed
+          $ref: '#/responses/Message'
+    delete:
+      tags:
+        - carts
+      summary: remove article from cart
+      operationId: cartRemoveArticle
+      parameters:
+        - in: user.data
+          name: data
+          description: Account extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+        - in: path
+          name: id
+          description: article's id
+          required: true
+          schema:
+            $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: 'OK'
+          $ref: '#/responses/Message'
+        '401':
+          $ref: '#/responses/InvalidRights'
+        '404':
+          description: Article not found
+          $ref: '#/responses/Message'
+        '500':
+          description: Removing article from cart failed
+          $ref: '#/responses/Message'
+definitions:
+  Cart:
+    type: object
+    properties:
+      quantity:
+        type: integer
+        required: true
+        minimum: 1
+        maximum: 100000
+      UserId:
+          $ref: '#/parameters/Id'
+      ArticleId:
+          $ref: '#/parameters/Id'

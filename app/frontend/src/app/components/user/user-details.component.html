@@ -1,0 +1,31 @@
+<div class="card-header">
+    <h5>Page of User</h5>
+</div>
+
+<div class="card" align="center" *ngIf="user !== null">
+  <div class="card-block">
+    <h4 class="card-title" id="pseudo"> {{ user.pseudo }} </h4>
+    <h6 class="card-subtitle mb-2 text-muted" id="name"> {{ user.firstName }} {{ user.lastName }} </h6>
+    <p class="card-text" id="IBAN">IBAN : {{ user.IBAN }} </p>
+  </div>
+</div>
+
+<div class="card" align="center" *ngIf="user !== null">
+  <form class="user-actions" id="review-action" *ngIf="this.authService.getAccount()"
+    (ngSubmit)="onSubmitReview()" ngNativeValidate>
+    <input type="text" class="form-control form-control-sm" name="comment" maxlength="500"
+      [(ngModel)]="comment" required>
+    <button class="btn btn-success fa fa-comment" id="add-review" type="submit">
+      Submit review of this user
+    </button>
+  </form>
+  <div id="messageDiv" *ngIf="message !== ''" class="alert" role="alert">
+    {{ message }}
+  </div>
+</div>
+
+<div class="row justify-content-center" id="reviews-list" *ngIf="user !== null">
+  <div class="col-10">
+    <app-review-received></app-review-received>
+  </div>
+</div>

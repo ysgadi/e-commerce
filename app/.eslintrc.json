@@ -1,0 +1,24 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "google"
+  ],
+  "rules": {
+    "new-cap": [
+      2,
+      {
+        "capIsNewExceptions": [
+          "Router"
+        ]
+      }
+    ],
+    "indent": ["error", 2]
+  }
+}

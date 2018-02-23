@@ -1,0 +1,14 @@
+<div class="card-header">
+    <h5>My account</h5>
+</div>
+
+<div class="card" align="center" *ngIf="account !== null">
+  <div class="card-block">
+    <h4 class="card-title" id="pseudo"> {{ account.pseudo }} </h4>
+    <h6 class="card-subtitle mb-2 text-muted" id="name"> {{ account.firstName }} {{ account.lastName }} </h6>
+    <p class="card-text" id="email">Email : {{ account.email }} </p>
+    <p class="card-text" id="address">Address : {{ account.address }} </p>
+    <p class="card-text" id="IBAN">IBAN : {{ account.IBAN }} </p>
+    <button class="btn btn-primary" id="update" routerLink='/account/update'> Update my account </button>
+  </div>
+</div>

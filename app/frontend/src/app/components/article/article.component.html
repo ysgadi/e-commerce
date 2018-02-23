@@ -1,0 +1,83 @@
+<div class="row mb-5">
+    <h3 class="d-inline">All Articles</h3>
+    <a routerLink="/article/create" class="btn btn-success" id="create-btn">
+      <i class="fa fa-plus"></i>
+      New Article
+    </a>
+  </div>
+  <form ngNativeValidate (ngSubmit)="onSearch()">
+  <div class="form-inline my-2 my-lg-0">
+      <input id="search-btn" (keyup)="onKey($event)" class="form-control mr-sm-2" type="text" [(ngModel)]="model" [ngbTypeahead]="search" name="articleName" [resultFormatter]="formatter"
+      [inputFormatter]="formatter"placeholder="Search"  autofocus required>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </div>
+  </form>
+  <br>
+  <ng-container *ngIf="articleNotFound == true">
+   <ng-container *ngFor="let articleAmazon of articlesAmazon;let i = index">
+   <div class="card text-center">
+          <h3 class="card-header"><i class="fa fa-amazon" aria-hidden="true"></i> Amazon search {{ i+1 }} for {{ searchAmazon }}</h3>
+           <div class="card-block">
+            <h6 class="card-title"><a class="view-article"><B>ASSIN Code:</B> {{ articleAmazon.assinCode }}</a></h6>
+            <p class="card-text"><a class="view-article" href="{{articleAmazon.url}}"><B>Access to the Amazon page of the article</B></a></p>
+          </div>
+        </div> 
+        <br>
+  </ng-container>
+  </ng-container>
+  <div [hidden]="articleNotFound">
+  <ng-container *ngIf="!SearchArticle; else blockElse">
+  <div class="row">
+    <table class="table">
+              <tbody>
+                  <tr *ngFor="let row of rowList">
+                      <td *ngFor="let col of row">
+                          <div class="card text-center">
+                              <h3 class="card-header"><a class="view-article" routerLink="/article/{{ col.id }}">{{ col.name }} </a></h3>
+                               <div class="card-block">
+                                <p class="card-text"><B>Decription:</B> {{ col.description }}</p>
+                                <p class="card-text"><B>Price:</B> {{ col.price }}€</p>
+                                <p class="card-title"><B>Category: </B>{{ col.category }}</p>
+                              </div>
+                            </div> 
+                      </td>
+                  </tr>
+              </tbody>
+      </table>
+      
+  </div>
+  </ng-container>
+  <ng-template #blockElse>
+    <ng-container *ngIf="model.category != null;else blockElse">
+        <div class="card text-center">
+            <h3 class="card-header"><a class="view-article" routerLink="/article/{{ model.id }}">{{ model.name }} </a></h3>
+             <div class="card-block">
+              <p class="card-text"><B>Decription:</B> {{ model.description }}</p>
+              <p class="card-text"><B>Price:</B> {{ model.price }}€</p>
+              <p class="card-title"><B>Category: </B>{{ model.category }}</p>
+            </div>
+          </div> 
+      </ng-container>
+      <ng-template #blockElse>
+          <table class="table">
+              <tbody>
+                  <tr *ngFor="let row of rowList">
+                      <td *ngFor="let col of row">
+                        <div class="card text-center">
+                            <h3 class="card-header"><a class="view-article" routerLink="/article/{{ col.id }}">{{ col.name }} </a></h3>
+                             <div class="card-block">
+                              <p class="card-text"><B>Decription:</B> {{ col.description }}</p>
+                              <p class="card-text"><B>Price:</B> {{ col.price }}€</p>
+                              <p class="card-title"><B>Category: </B>{{ col.category }}</p>
+                            </div>
+                          </div> 
+                      </td>
+                  </tr>
+              </tbody>
+      </table>
+      </ng-template>
+  </ng-template>
+  </div>
+  
+
+  

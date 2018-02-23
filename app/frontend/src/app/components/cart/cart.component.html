@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+  <div class="col-10">
+    <div class="row mb-5">
+      <h3 class="d-inline">All Articles in your Cart</h3>
+    </div>
+
+    <div class="row">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let article of articles">
+          <td>
+            <a class="view-article" routerLink="/article/{{ article.id }}">
+              {{ article.name }}
+            </a>
+          </td>
+          <td>{{ article.price }}€</td>
+          <td>{{ article.Cart.quantity }}</td>
+          <td>
+            <a class="remove-btn btn btn-sm btn-danger" href="javascript:void(0);" (click)="onRemove(article.id)">
+              <i class="fa fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="btn btn-success" id="create-btn" (click)="open(content)">
+      <i class="fa fa-credit-card"></i>
+      Valid Cart
+    </a>
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Cart validation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    
+      </div>
+      <div class="modal-body">
+        <p>Do you really want to purchase those articles</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" id="yes"(click)="c('Close click'); onValid()">Yes</button>
+        <button type="button" class="btn btn-outline-dark" id="no"(click)="c('Close click')">No</button>
+      </div>
+    </ng-template>
+  </div>
+  <div id="messageDiv" *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert"
+    role="alert">
+    {{ message }}
+  </div>
+</div>

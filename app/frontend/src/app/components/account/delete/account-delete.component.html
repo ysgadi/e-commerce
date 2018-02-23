@@ -1,0 +1,31 @@
+<div class="card-header">
+  <h5>Delete My account</h5>
+</div>
+
+<div class="card" align="center" *ngIf="account !== null">
+  <div class="card-block">
+    <h4 class="card-title" id="pseudo"> {{ account.pseudo }} </h4>
+    <p class="card-text" id="email">Email : {{ account.email }} </p>
+    <button class="btn btn-primary" id="deleteAccount" (click)="open(content)"> Delete this account</button>
+  </div>
+</div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Account Delete</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete your account?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" id="yes"(click)="c('Close click'); onDelete()">Yes</button>
+    <button type="button" class="btn btn-outline-dark" id="no"(click)="c('Close click')">No</button>
+  </div>
+</ng-template>
+<div id="messageDiv" *ngIf="message !== ''" [ngClass]="alert-danger" class="alert"
+  role="alert">
+  {{ message }}
+</div>

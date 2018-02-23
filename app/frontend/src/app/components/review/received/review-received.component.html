@@ -1,0 +1,20 @@
+<div class="row mb-5">
+  <h6 class="d-inline">Reviews received by this user</h6>
+</div>
+
+<div class="row">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>From</th>
+      <th>Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let review of receivedReviews">
+      <td>{{ review.pseudo }}</td>
+      <td>{{ review.Review.comment }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

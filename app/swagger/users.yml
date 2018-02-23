@@ -1,0 +1,40 @@
+paths:
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: get informations of a user
+      operationId: userDetails
+      parameters:
+        - in: path
+          name: id
+          description: user's id
+          required: true
+          schema:
+            $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: User not found
+          $ref: '#/responses/Message'
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        $ref: '#/parameters/Id'
+      pseudo:
+        type: string
+        maxLength: 255
+      firstName:
+        type: string
+        maxLength: 255
+      lastName:
+        type: string
+        maxLength: 255
+      IBAN:
+        type: string
+        maxLength: 255

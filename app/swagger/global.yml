@@ -1,0 +1,32 @@
+responses:
+  Message:
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+  InvalidInput:
+    description: Invalid parameters input
+    $ref: '#/responses/Message'
+  InvalidRights:
+    description: Do not have right to access ressource
+    $ref: '#/responses/Message'
+parameters:
+  Token:
+    type: object
+    properties:
+      token:
+        type: string
+  Id:
+    type: number
+    required: true
+  Email:
+    type: string
+    format: email
+    maxLength: 255
+    required: true
+  Password:
+    type: string
+    minLength: 5
+    maxLength: 32
+    required: true

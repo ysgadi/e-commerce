@@ -1,0 +1,160 @@
+paths:
+  /articles:
+    get:
+      tags:
+        - articles
+      summary: Give the list of articles
+      operationId: articlesList
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/Article'
+    post:
+      tags:
+        - articles
+      summary: create a new article
+      operationId: articlesCreate
+      parameters:
+        - in: user.data
+          name: data
+          description: Account extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+        - in: body
+          name: body
+          description: Article object to create
+          required: true
+          schema:
+            $ref: '#/definitions/Article'
+      responses:
+        '201':
+          description: OK
+          $ref: '#/responses/Message'
+        '401':
+          $ref: '#/responses/InvalidRights'
+        '422':
+          $ref: '#/responses/InvalidInput'
+        '500':
+          description: Article creation error
+          $ref: '#/responses/Message'
+  /articles/{id}:
+    get:
+      tags:
+        - articles
+      summary: Give the details of an article
+      operationId: articlesDetails
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Article'
+        '404':
+          description: Article not found
+          $ref: '#/responses/Message'
+    put:
+      tags:
+        - articles
+      summary: Update an article
+      operationId: articlesUpdate
+      parameters:
+        - in: user.data
+          name: data
+          description: Account extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+        - in: path
+          name: id
+          description: article's id
+          required: true
+          schema:
+            $ref: '#/parameters/Id'
+        - in: body
+          name: body
+          description: Article object with new datas
+          required: true
+          schema:
+            $ref: '#/definitions/Article'
+      responses:
+        '200':
+          description: 'OK'
+          $ref: '#/responses/Message'
+        '401':
+          $ref: '#/responses/InvalidRights'
+        '404':
+          description: Article not found
+          $ref: '#/responses/Message'
+        '422':
+          $ref: '#/responses/InvalidInput'
+        '500':
+          description: Deleting article error
+          $ref: '#/responses/Message'
+    delete:
+      tags:
+        - articles
+      summary: Delete an article
+      operationId: articlesDelete
+      parameters:
+        - in: user.data
+          name: data
+          description: Account extracted from token
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+        - in: path
+          name: id
+          description: article's id
+          required: true
+          schema:
+            $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: 'OK'
+          $ref: '#/responses/Message'
+        '401':
+          $ref: '#/responses/InvalidRights'
+        '404':
+          description: Article not found
+          $ref: '#/responses/Message'
+        '500':
+          description: Deleting article error
+          $ref: '#/responses/Message'
+definitions:
+  Article:
+    type: object
+    properties:
+      id:
+        $ref: '#/parameters/Id'
+      name:
+        type: string
+        maxLength: 100
+        required: true
+      description:
+        type: string
+        maxLength: 500
+      price:
+        type: number
+        required: true
+        minimum: 0
+        maximum: 1000000000
+      category:
+        type: string
+        required: true
+        enum :
+          - Multimedia
+          - Informatique
+          - Vehicule
+          - Service
+          - Exterieur
+          - Interieur
+          - Autre
+        maxLength: 255
+      quantity:
+        type: integer
+        required: true
+        minimum: 1
+        maximum: 100000

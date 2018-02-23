@@ -1,0 +1,48 @@
+<div class="card-header">
+    <h5>Account update</h5>
+  </div>
+  <div id="scrolltableIns">
+    <div class="card-body container">
+      <form id="update-account-form"
+            (ngSubmit)="onUpdate()"
+            ngNativeValidate>
+        <div class="form-group">
+          <label>Pseudo</label>
+          <input type="text" class="form-control form-control-sm" name="pseudo"
+            [(ngModel)]="account.pseudo" maxlength="255" autofocus required>
+        </div>
+        <div class="form-group">
+          <label>First name</label>
+          <input type="text" class="form-control form-control-sm" name="firstname"
+            [(ngModel)]="account.firstName" maxlength="255">
+        </div>
+        <div class="form-group">
+          <label>Last name</label>
+          <input type="text" class="form-control form-control-sm" name="lastname" maxlength="255"
+            [(ngModel)]="account.lastName" maxlength="255">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control form-control-sm" name="email"
+          [(ngModel)]="account.email" maxlength="255" required>
+        </div>
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" class="form-control form-control-sm" name="address"
+            [(ngModel)]="account.address" maxlength="255" required>
+        </div>
+        <div class="form-group">
+          <label>IBAN</label>
+          <input type="text" class="form-control form-control-sm" name="IBAN"
+            [(ngModel)]="account.IBAN" maxlength="255" required>
+        </div>
+        <div class="text-right">
+          <input class="btn btn-primary" type="submit" value="Update Account">
+        </div>
+      </form>
+      <div id="messageDiv" *ngIf="message !== ''" [ngClass]="(isError)?'alert-danger':'alert-success'" class="alert"
+        role="alert">
+        {{ message }}
+      </div>
+    </div>
+  </div>
